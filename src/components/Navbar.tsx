@@ -1,20 +1,68 @@
 "use client";
 // import { useAuth } from "@/context/AuthUserContext";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import { MenuOutlined, SearchOutlined } from "@mui/icons-material";
-import Dropdown from "./Dropdown";
+import {
+  Login,
+  Logout,
+  Person2Outlined,
+  MenuOutlined,
+  SearchOutlined,
+} from "@mui/icons-material";
+import Dropdown, { ItemProps } from "./Dropdown";
+import { useAuth } from "@/context/AuthUserContext";
+import { useDebounce } from "use-debounce";
+import { usePathname, useRouter } from "next/navigation";
 
 function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
-  // const { user, logout } = useAuth();
+  const router = useRouter();
+  const { user, logout } = useAuth();
+  const [searchValue, setSearchValue] = useState<string | null>(null);
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [search] = useDebounce(searchValue, 1000);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === '/explore') {
+      router.push(`/explore?search=${search}`)
+    }
+  }, [pathname, router, search]);
+
+  let PROFILE_MENU: ItemProps[] = [];
+
+  if (user) {
+    PROFILE_MENU = PROFILE_MENU.concat([
+      {
+        name: "Profile",
+        icon: <Person2Outlined fontSize="small" />,
+        link: "/profile",
+      },
+      {
+        name: "Logout",
+        icon: <Logout fontSize="small" />,
+        link: ""
+      },
+    ]);
+  } else {
+    PROFILE_MENU.push({
+      name: "Sign In",
+      icon: <Login fontSize="small" />,
+      link: "/signin",
+    });
+  }
+
+  const handleSearch = (e: { target: { value: string }; }) => {
+    const search = e.target.value;
+    setSearchValue(search);
+  }
+
   return (
     <>
-      <header className="fixed w-full bg-white dark:bg-gray-900 py-2 z-10">
-        <div className="mx-auto flex items-center justify-between px-4">
+      <header className="fixed w-full bg-white dark:bg-black z-10">
+        <div style={{ height: '60px' }} className="mx-auto flex items-center justify-between px-4">
           {/* Logo */}
           {openSearch ? (
             <button
@@ -25,20 +73,23 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
             </button>
           ) : (
             <div className="flex space-x-3 items-center">
-              <button onClick={toggleSidebar} className="icon-button hidden sm:block z-40">
+              <button
+                onClick={toggleSidebar}
+                style={{ minWidth: '45px' }}
+                className="icon-button burger-menu cursor-pointer z-40"
+              >
                 <MenuOutlined />
               </button>
               <div className="flex items-center space-x-2">
                 <Image
-                  width={60}
+                  width={250}
                   height={40}
-                  src=""
-                  alt="YouTube Logo"
-                  className="w-10 h-10"
+                  src="/logo.png"
+                  alt="Memeverse Logo"
                 />
-                <span className="text-xl font-bold text-red-500">
+                {/* <span className="text-xl font-bold text-gray-900 dark:text-gray-400">
                   MemeVerse
-                </span>
+                </span> */}
               </div>
             </div>
           )}
@@ -51,7 +102,8 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
           >
             <div className="relative w-full max-w-md">
               <input
-                type="text"
+                type="search"
+                onChange={handleSearch}
                 className="w-full p-2 pl-10 pr-4 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition-all"
                 placeholder="Search Memes..."
               />
@@ -65,9 +117,9 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
                   aria-hidden="true"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0 0l6 6"
                   ></path>
                 </svg>
@@ -89,26 +141,16 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
 
               {/* Profile Icon */}
               <Dropdown
-                placement="bottom-right"
-                className="p-2 rounded-full"
-                items={[
-                  {
-                    name: "Sign In",
-                    icon: <></>,
-                    link: ""
-                  },
-                  {
-                    name: "Profile",
-                    icon: <></>,
-                    link: "/profile",
-                  },
-                  {
-                    name: 'Logout',
-                    icon: <></>,
+                onItemSelect={(item) => {
+                  if (item.name === 'Logout') {
+                    logout();
                   }
-                ]}
+                }}
+                placement="bottom-right"
+                className="p-1 w-10 cursor-pointer hover:bg-gray-200 rounded-full"
+                items={PROFILE_MENU}
               >
-                <Image src="" alt="Profile" className="w-8 h-8 rounded-full" />
+                <Image width={60} height={60} src={user?.user?.avatar ?? '/profile.png'} alt="Profile" className="rounded-full" />
               </Dropdown>
             </div>
           )}

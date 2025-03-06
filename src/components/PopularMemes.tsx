@@ -1,33 +1,43 @@
 "use client";
-import { getMemes } from "@/api/meme.services";
+
+import { useMemes } from "@/api/meme.services";
 import { useMemo } from "react";
 import type { MemeType } from "@/types/meme";
 import MemeDisplay from "./Meme";
-import useSWR from "swr";
 import { Loading } from "./loading";
 import Link from "next/link";
+import NoDataFound from "./NoDataFound";
 
 export default function PopularMemes() {
-  const { data, error, isLoading } = useSWR("/meme", getMemes);
+  const { data, isError, isLoading } = useMemes();
   const POPULAR_MEMES: MemeType[] = useMemo(() => {
-    let listOfMemes = [];
-    if (!isLoading && !error) {
-      listOfMemes = data.memes;
+    const listOfMemes: any[] = [];
+    if (!isLoading && !isError && data) {
+      if (data?.pages?.length > 0) {
+        data.pages.forEach((group) => listOfMemes.push(group.memes));
+      }
     }
-    return listOfMemes;
-  }, [data, error, isLoading]);
-  //   console.log(POPULAR_MEMES);
-  if (error) return <div>failed to load</div>;
+    return listOfMemes.flat();
+  }, [data, isError, isLoading]);
+
+  if (isError) return <div>failed to load</div>;
+
   if (isLoading) return <Loading />;
+
+  if (POPULAR_MEMES?.length <= 0) {
+    return <NoDataFound />;
+  }
   return (
-    <div className="p-2 bg-white dark:bg-gray-900">
-      <div className="columns-2 md:columns-4 gap-4 space-y-4">
-        {POPULAR_MEMES.map((meme) => (
-          <Link key={meme._id} href={`/meme/${meme._id}`}>
-          <MemeDisplay  src={meme.url} />
-          </Link>
-        ))}
-      </div>
+    <div className="p-2">
+      {POPULAR_MEMES?.length > 0 && (
+        <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-9 xl:grid-cols-12 place-items-center h-screen gap-4">
+          {POPULAR_MEMES.map((meme) => (
+            <div key={meme._id} className="col-span-3">
+              <MemeDisplay meme={meme} src={meme?.url ?? null} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

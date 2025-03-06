@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type ItemProps = {
+export type ItemProps = {
     name?: string
     link?:string
     icon?: React.ReactNode
@@ -89,7 +89,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       {isOpen && (
         <div
           ref={dropdownRef}
-          className={`absolute w-48 rounded-md shadow-lg bg-white ${positionClasses()}`}
+          className={`absolute w-48 z-15 rounded-md shadow-lg bg-white ${positionClasses()}`}
         >
           <div className="py-1">
             {items.map((item, index) => (
@@ -97,10 +97,10 @@ const Dropdown: React.FC<DropdownProps> = ({
                 key={index}
                 href={item.link}
                 onClick={() => onItemSelect && onItemSelect(item)} // Handle item click
-                className="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="flex items-center cursor-pointer px-4 py-2 space-x-2 text-sm text-gray-700 hover:bg-gray-100"
               >
                 {item.icon}
-                {item.name}
+                <span>{item.name}</span>
               </a>
             ))}
           </div>

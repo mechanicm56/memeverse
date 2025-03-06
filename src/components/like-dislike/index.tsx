@@ -1,13 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
 import "./index.css";
-import { ThumbDown } from "@mui/icons-material";
+import { ThumbDown, ThumbDownOutlined } from "@mui/icons-material";
 
-function LikeButton() {
+function LikeButton({ liked = false }: { liked: boolean }) {
   return (
     <span className="like_btn">
-      <input hidden aria-hidden="true" type="checkbox" id="check" />
+      <input
+        checked={liked}
+        hidden
+        aria-hidden="true"
+        type="checkbox"
+        id="check"
+      />
       <label htmlFor="check">
         <svg
           className="unchecked"
@@ -17,7 +22,7 @@ function LikeButton() {
           height="40"
           stroke="currentColor"
           stroke-width="1.5"
-          fill="none"
+          // fill="currentColor"
         >
           <path d="m17.5,29.71c-.55,0-1.02-.2-1.41-.59-.39-.39-.59-.86-.59-1.41v-10.18c0-.27.05-.52.16-.76.11-.24.25-.45.44-.64l5.43-5.4c.25-.23.55-.38.89-.42.34-.05.67,0,.99.17.32.17.55.4.69.7.14.3.17.61.09.92l-1.12,4.6h5.45c.53,0,1,.2,1.4.6.4.4.6.87.6,1.4v2c0,.12-.01.24-.04.38-.02.13-.06.26-.11.38l-3,7.05c-.15.33-.4.62-.75.85-.35.23-.72.35-1.1.35h-8Zm-6,0c-.55,0-1.02-.2-1.41-.59-.39-.39-.59-.86-.59-1.41v-9c0-.55.2-1.02.59-1.41.39-.39.86-.59,1.41-.59s1.02.2,1.41.59c.39.39.59.86.59,1.41v9c0,.55-.2,1.02-.59,1.41-.39.39-.86.59-1.41.59Z" />
         </svg>
@@ -27,6 +32,7 @@ function LikeButton() {
           viewBox="0 0 40 40"
           width="40"
           height="40"
+          fill="currentcolor"
         >
           <circle className="circle-1" cx="8.85" cy="7.44" r="1.5" />
           <circle className="circle-2" cx="33.2" cy="33.67" r="1" />
@@ -105,125 +111,42 @@ function LikeButton() {
 function LikeDislike({
   like,
   dislike,
+  likes = 0,
+  value = "",
 }: {
-  like?: () => void;
-  dislike?: () => void;
+  like: () => void;
+  dislike: () => void;
+  likes?: number;
+  value?: string;
 }) {
-  const { liked, disliked } = useMemo(() => {
-    // const button_id = document.querySelector("#like_dislike");
-
-    const like_button = document.getElementById("like");
-    const like__icon = document.getElementById("like__icon");
-
-    const dislike_button = document.getElementById("dislike");
-    const dislike__icon = document.getElementById("dislike__icon");
-
-    const like_count = document.getElementById("number");
-
-    function liked() {
-      if (
-        like_button &&
-        like__icon &&
-        dislike__icon &&
-        like_count &&
-        dislike_button
-      ) {
-        const like_button_status = like_button.getAttribute("data-status");
-
-        like_button.classList.remove("touch_feedback");
-        // like_button.offsetWidth;
-        like_button.classList.add("touch_feedback");
-
-        switch (like_button_status) {
-          case "inactive":
-            // like__icon.classList.add("fa-solid");
-            // like__icon.classList.remove("fa-regular");
-            like_button.setAttribute("data-status", "active");
-            like_count.innerHTML = "146";
-
-            // dislike__icon.classList.add("fa-regular");
-            // dislike__icon.classList.remove("fa-solid");
-            dislike_button.setAttribute("data-status", "inactive");
-
-            like__icon.classList.remove("like__animation");
-            // like__icon.offsetWidth;
-            like__icon.classList.add("like__animation");
-            break;
-          case "active":
-            // like__icon.classList.add("fa-regular");
-            // like__icon.classList.remove("fa-solid");
-            like_button.setAttribute("data-status", "inactive");
-            like_count.innerHTML = "145";
-            break;
-        }
-      }
-      if (like) {
-        like();
-      }
-    }
-
-    function disliked() {
-      if (
-        dislike_button &&
-        like__icon &&
-        like_button &&
-        like_count &&
-        dislike__icon
-      ) {
-        const dislike_button_status =
-          dislike_button.getAttribute("data-status");
-
-        dislike_button.classList.remove("touch_feedback");
-        // dislike_button.offsetWidth;
-        dislike_button.classList.add("touch_feedback");
-
-        switch (dislike_button_status) {
-          case "inactive":
-            // like__icon.classList.add("fa-regular");
-            // like__icon.classList.remove("fa-solid");
-            like_button.setAttribute("data-status", "inactive");
-            like_count.innerHTML = "145";
-
-            // dislike__icon.classList.add("fa-solid");
-            // dislike__icon.classList.remove("fa-regular");
-            dislike_button.setAttribute("data-status", "active");
-
-            dislike__icon.classList.remove("dislike__animation");
-            // dislike__icon.offsetWidth;
-            dislike__icon.classList.add("dislike__animation");
-            break;
-          case "active":
-            // dislike__icon.classList.add("fa-regular");
-            // dislike__icon.classList.remove("fa-solid");
-            dislike_button.setAttribute("data-status", "inactive");
-            break;
-        }
-      }
-      if (dislike) {
-        dislike();
-      }
-    }
-    return {
-      liked,
-      disliked,
-    };
-  }, []);
   return (
-    <div className="like_dislike h-9 rounded-full bg-gray-200 text-grey-900 dark:bg-gray-800" id="like_dislike">
-      <div className="like dark:hover:bg-gray-700 dark:hover:text-white" id="like" onClick={liked} data-status="inactive">
-        <LikeButton />
+    <div
+      className="like_dislike h-9 rounded-full bg-gray-200 text-grey-900 dark:bg-gray-800"
+      id="like_dislike"
+    >
+      <div
+        className="like cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+        id="like"
+        onClick={() => like()}
+        data-status="inactive"
+      >
+        <LikeButton liked={value === "like"} />
         <span className="number text-center" id="number">
-          0
+          {likes}
         </span>
       </div>
       <span className="divider"></span>
       <div
-        className="dislike dark:hover:bg-gray-700 dark:hover:text-white"
+        className="dislike cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
         id="dislike"
-        onClick={disliked}
+        onClick={() => dislike()}
         data-status="inactive"
       >
-        <ThumbDown fontSize="medium" id="dislike__icon" />
+        {value === "dislike" ? (
+          <ThumbDown fontSize="medium" id="dislike__icon" />
+        ) : (
+          <ThumbDownOutlined fontSize="medium" id="dislike__icon" />
+        )}
       </div>
     </div>
   );

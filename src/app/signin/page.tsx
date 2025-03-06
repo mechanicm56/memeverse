@@ -1,47 +1,23 @@
-// import Image from "next/image";
+import Login from "@/components/Login";
 
-export default function Login() {
+
+export default function LoginPage() {
   return (
-    <div className="flex items-center" style={{ height: '100vh' }}>
-            <div className="w-full lg:w-1/2 xl:max-w-screen-sm">
-                <div className="mt-10 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
-                    <h2 className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
-                    xl:text-bold">Log in</h2>
-                    <div className="mt-12">
-                        <form>
-                            <div>
-                                <div className="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
-                                <input className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="mike@gmail.com" />
-                            </div>
-                            <div className="mt-8">
-                                <div className="flex justify-between items-center">
-                                    <div className="text-sm font-bold text-gray-700 tracking-wide">
-                                        Password
-                                    </div>
-                                    <div>
-                                        <a className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
-                                        cursor-pointer">
-                                            Forgot Password?
-                                        </a>
-                                    </div>
-                                </div>
-                                <input className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="Enter your password" />
-                            </div>
-                            <div className="mt-10">
-                                <button className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
-                                font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
-                                shadow-lg">
-                                    Log In
-                                </button>
-                            </div>
-                        </form>
-                        <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-                            Don&apos;t have an account ? <a className="cursor-pointer text-indigo-600 hover:text-indigo-800">Sign up</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="hidden lg:flex items-center justify-center bg-indigo-100 flex-1 h-screen">
+    <div className="flex justify-center items-center">
+      <div className="w-full lg:w-1/2 xl:max-w-screen-sm">
+        <div className="mt-16 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
+          <h2
+            className="text-center text-4xl text-gray-600 font-display font-semibold lg:text-left xl:text-5xl
+                    xl:text-bold"
+          >
+            Log in
+          </h2>
+          <div className="mt-12">
+            <Login />
+          </div>
+        </div>
+      </div>
+      {/* <div className="hidden lg:flex items-center justify-center bg-indigo-100 flex-1 h-screen">
                 <div className="max-w-xs transform duration-200 hover:scale-110 cursor-pointer">
                     <svg className="w-5/6 mx-auto" xmlns="http://www.w3.org/2000/svg" id="f080dbb7-9b2b-439b-a118-60b91c514f72" data-name="Layer 1" viewBox="0 0 528.71721 699.76785">
                         <title>Login</title>
@@ -76,7 +52,7 @@ export default function Login() {
                         <path d="M786.797,157.64461s-11.5575-4.20273-27.31774,4.72807l8.40546,2.10136s-12.60819,1.05068-14.18421,17.8616h5.77875s-3.67739,14.70955,0,18.91228l2.364-4.4654,6.82943,13.65887,1.576-6.82944,3.15205,1.05069,2.10137-11.03217s5.25341,7.88012,9.45614,8.40546V195.2065s11.5575,13.13352,15.23489,12.60818l-5.25341-7.35477,7.35477,1.576-3.152-5.25341,18.91228,5.25341-4.20273-5.25341,13.13352,4.20273,6.3041,2.6267s8.9308-20.4883-3.67739-34.67251S798.61712,151.60318,786.797,157.64461Z" transform="translate(-335.6414 -100.11607)" fill="#2f2e41"/>
                     </svg>
                 </div>
-            </div>
-        </div>
+            </div> */}
+    </div>
   );
 }

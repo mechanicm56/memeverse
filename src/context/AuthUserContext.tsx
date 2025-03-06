@@ -35,9 +35,9 @@ export const AuthContextProvider = ({
     setLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log("User from context: ", user);
-  }, [user]);
+  // useEffect(() => {
+  //   console.log("User from context: ", user);
+  // }, [user]);
 
   const logout = async () => {
     window.localStorage.removeItem("uxairishere");

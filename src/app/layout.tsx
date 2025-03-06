@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthContextProvider } from "@/context/AuthUserContext";
 import ThemeClient from "@/context/ThemeClient";
 import Layout from "@/components/Layout";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,19 +24,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ToastContainer />
         <ThemeClient>
           <AuthContextProvider>
-            <Layout>
-              {children}
-            </Layout>
+              <Layout>{children}</Layout>
           </AuthContextProvider>
         </ThemeClient>
       </body>

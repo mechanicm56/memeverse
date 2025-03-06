@@ -4,4 +4,7 @@ export type MemeType = {
     url: string
     height?: number
     width?: number
+    likes?: number
+    like?: string
+    comments?: any[]
 }

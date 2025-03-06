@@ -5,9 +5,10 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 
 interface CategoryBarProps {
   categories: string[];
+  onChange?: (category?: string) => void;
 }
 
-const Categories: React.FC<CategoryBarProps> = ({ categories }) => {
+const Categories: React.FC<CategoryBarProps> = ({ categories, onChange }) => {
   const categoriesContainerRef = useRef<HTMLDivElement>(null)
 
   // Scroll the container to the left
@@ -31,11 +32,11 @@ const Categories: React.FC<CategoryBarProps> = ({ categories }) => {
   }
 
   return (
-    <div className="relative flex w-full scrollbar-hide items-center px-16">
+    <div className="flex w-full space-x-3 scrollbar-hide items-center">
       {/* Left Arrow Button */}
       <button
         onClick={handleLeftClick}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 icon-button ml-1 focus:outline-none"
+        className="icon-button ml-1 focus:outline-none"
       >
         <KeyboardArrowLeftIcon />
       </button>
@@ -48,17 +49,17 @@ const Categories: React.FC<CategoryBarProps> = ({ categories }) => {
         {categories.map((category, index) => (
           <span
             key={index}
-            className="px-4 py-1 bg-gray-300 hover:bg-gray-400 hover:text-gray-200 dark:bg-gray-900 dark:text-gray-400 rounded-lg text-gray-700 cursor-pointer"
+            onClick={() => onChange && onChange(category)}
+            className="px-4 py-1 bg-gray-300 text-gray-700 hover:bg-gray-400 hover:text-gray-200 dark:bg-gray-900 dark:hover:bg-gray-700 dark:text-gray-400 dark:hover:text-gray-300 rounded-lg cursor-pointer"
           >
             {category}
           </span>
         ))}
       </div>
-
       {/* Right Arrow Button */}
       <button
         onClick={handleRightClick}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 mr-1 icon-button focus:outline-none"
+        className="mr-1 icon-button focus:outline-none"
       >
         <KeyboardArrowRightOutlinedIcon />
       </button>
