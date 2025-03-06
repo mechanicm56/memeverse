@@ -31,7 +31,7 @@ const Categories: React.FC<CategoryBarProps> = ({ categories }) => {
   }
 
   return (
-    <div className="relative flex w-full items-center px-16">
+    <div className="relative flex w-full scrollbar-hide items-center px-16">
       {/* Left Arrow Button */}
       <button
         onClick={handleLeftClick}
@@ -43,7 +43,7 @@ const Categories: React.FC<CategoryBarProps> = ({ categories }) => {
       {/* Category Bar (scrollable container) */}
       <div
         ref={categoriesContainerRef}
-        className="flex space-x-4 p-2 px-4 overflow-x-auto bg-gray-200 dark:bg-gray-800 rounded-full scroll-smooth scrollbar-hide w-full"
+        className="flex hide-scroll space-x-4 p-2 px-4 overflow-x-auto bg-gray-200 dark:bg-gray-800 rounded-full scroll-smooth scrollbar-hide w-full"
       >
         {categories.map((category, index) => (
           <span

@@ -15,14 +15,16 @@ const MemeDisplay: React.FC<MemeDisplayProps> = ({
   alt = "Meme",
 }) => {
   return (
-    <Image
-      src={src}
-      className="w-full rounded-xl"
-      alt={alt}
-      width={width}
-      height={height}
-      loading="lazy"
-    />
+    <div className="transition-all duration-300 ease-in-out">
+      <Image
+        src={src}
+        className="w-full rounded-xl"
+        alt={alt}
+        width={width}
+        height={height}
+        loading="lazy"
+      />
+    </div>
   );
 };
 

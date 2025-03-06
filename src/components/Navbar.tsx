@@ -4,10 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import ThemeToggler from "./ThemeToggler";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
-import {
-  MenuOutlined,
-  SearchOutlined,
-} from "@mui/icons-material";
+import { MenuOutlined, SearchOutlined } from "@mui/icons-material";
+import Dropdown from "./Dropdown";
 
 function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
   // const { user, logout } = useAuth();
@@ -27,7 +25,7 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
             </button>
           ) : (
             <div className="flex space-x-3 items-center">
-              <button onClick={toggleSidebar} className="icon-button z-40">
+              <button onClick={toggleSidebar} className="icon-button hidden sm:block z-40">
                 <MenuOutlined />
               </button>
               <div className="flex items-center space-x-2">
@@ -90,9 +88,28 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
               <ThemeToggler />
 
               {/* Profile Icon */}
-              <button className="p-2 hover:bg-gray-200 rounded-full">
+              <Dropdown
+                placement="bottom-right"
+                className="p-2 rounded-full"
+                items={[
+                  {
+                    name: "Sign In",
+                    icon: <></>,
+                    link: ""
+                  },
+                  {
+                    name: "Profile",
+                    icon: <></>,
+                    link: "/profile",
+                  },
+                  {
+                    name: 'Logout',
+                    icon: <></>,
+                  }
+                ]}
+              >
                 <Image src="" alt="Profile" className="w-8 h-8 rounded-full" />
-              </button>
+              </Dropdown>
             </div>
           )}
         </div>

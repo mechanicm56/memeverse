@@ -1,6 +1,6 @@
-import axios from "axios"
+import http from "@/lib/axios";
 
 export const getMemes = async () => {
-    const { data } = await axios.get('https://api.imgflip.com/get_memes');
+    const { data } = await http.get('meme');
     return data;
 }

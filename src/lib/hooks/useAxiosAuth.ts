@@ -1,14 +1,12 @@
-import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import { useAuth } from '@/context/AuthUserContext';
 import { refreshToken } from './useRefreshAuth';
+import http from "../axios";
 
 
 export const useAxiosAuth = () => {
-const axiosJWT = axios.create()
 const { user, setUser } = useAuth();
-
-axiosJWT.interceptors.request.use(
+http.interceptors.request.use(
     async (config) => {
         let currentDate = new Date();
         const decodedToken: any = jwt_decode(user.accessToken);
@@ -23,6 +21,6 @@ axiosJWT.interceptors.request.use(
     }
 );
 
-return axiosJWT;
+return http;
 
 }

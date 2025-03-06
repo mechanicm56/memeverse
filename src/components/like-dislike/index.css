@@ -1,0 +1,295 @@
+.like_btn .hand {
+    animation: hand 1.5s ease-in;
+    fill: inherit;
+    transform-origin: center;
+  }
+  
+  .line {
+    fill: transparent;
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  
+  .line-1 {
+    stroke: #fb493f;
+    stroke-width: 2;
+    animation: first 1.5s ease-in;
+  }
+  
+  .line-2 {
+    stroke: #cbfcc9;
+    stroke-width: 1.5;
+    animation: first 1.5s ease-in;
+  }
+  
+  .line-3 {
+    stroke: #dec83c;
+    stroke-width: 3;
+    animation: second 1.5s ease-in;
+  }
+  
+  .line-4 {
+    stroke: #cbfcc9;
+    stroke-width: 2;
+    animation: second 1.5s ease-in;
+  }
+  
+  .line-5 {
+    stroke: #fb493f;
+    stroke-width: 2;
+    animation: third 1.5s ease-in;
+  }
+  
+  .line-6 {
+    stroke: #ab71f7;
+    stroke-width: 2;
+    animation: third 1.5s ease-in;
+  }
+  
+  .line-7 {
+    stroke: #dec83c;
+    stroke-width: 2;
+    animation: third 1.8s ease-in;
+  }
+  
+  .circle-1 {
+    fill: #dec83c;
+    opacity: 0;
+    animation: circle 1.5s ease-in;
+  }
+  
+  .circle-2 {
+    fill: #fb493f;
+    opacity: 0;
+    animation: circle 1.5s ease-in;
+  }
+  
+  .circle-3 {
+    fill: #cbfcc9;
+    opacity: 0;
+    animation: circle 1.5s ease-in;
+  }
+  
+  .flower-1 {
+    fill: #dec83c;
+    opacity: 0;
+    animation: flower-1 1.5s ease-in;
+  }
+  
+  .flower-2 {
+    fill: #cbfcc9;
+    opacity: 0;
+    animation: flower-2 1.5s ease-in;
+  }
+  
+  .flower-3 {
+    fill: #fb493f;
+    opacity: 0;
+    animation: flower-1 1.5s ease-in;
+  }
+  
+  @keyframes flower-1 {
+    0% {
+      opacity: 0;
+    }
+    49% {
+      opacity: 0;
+    }
+    50% {
+      opacity: .5;
+    }
+    55% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes flower-2 {
+    0% {
+      opacity: 0;
+    }
+    55% {
+      opacity: 0;
+    }
+    60% {
+      opacity: .5;
+    }
+    65% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes circle {
+    0% {
+      opacity: 0;
+    }
+    49% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes first {
+    20% {
+      stroke-dashoffset: 40;
+    }
+    40% {
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dashoffset: 40;
+    }
+  }
+  
+  @keyframes second {
+    30% {
+      stroke-dashoffset: 40;
+    }
+    40% {
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dashoffset: 40;
+    }
+  }
+  
+  @keyframes third {
+    35% {
+      stroke-dashoffset: 40;
+    }
+    40% {
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dashoffset: 40;
+    }
+  }
+  
+  @keyframes hand {
+    0% {
+      fill: #fff;
+      transform: scale(.3) rotate(10deg);
+    }
+    5%{
+      transform: scale(.5) rotate(10deg);
+    }
+    20% {
+      fill: #cbfcc9;
+      transform: scale(1.3) rotate(-15deg);
+    }
+    40% {
+      fill: #ab71f7;
+      transform: scale(1.3) rotate(-30deg);
+    }
+    55% {
+      transform: scale(1.3) rotate(-30deg);
+    }
+    60% {
+      fill: #ddd926;
+      transform: scale(1) rotate(10deg);
+    }
+    66% {
+      fill: #f28032;
+      transform: scale(1) rotate(2deg);
+    }
+    70% {
+      fill: #fe443b;
+      transform: scale(1) rotate(0deg);
+    }
+    100%{
+      fill: #fff;
+      transform: scale(1) rotate(0deg);
+    }
+  }
+  
+  .like_btn input {
+    display: none;
+  }
+  
+  .like_btn input + label {
+    cursor: pointer;
+  }
+  
+  .like_btn input + label > .checked {
+    display: none;
+  }
+  
+  .like_btn input:checked + label > .checked {
+    display: block;
+  }
+  
+  .like_btn input:checked + label > .unchecked {
+    display: none;
+  }
+  
+  .like_btn svg {
+    vertical-align: middle;
+  }
+
+
+  /* Contianer */
+
+  .like_dislike {
+    position: relative;
+    width: 150px;
+    /* height: 35px; */
+    /* font-size: 50px; */
+    /* background-color: #272727; */
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .like {
+    z-index: 1;
+    width: 60%;
+    border-radius: 200px 0 0 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+  
+  .dislike {
+    z-index: 2;
+    width: 40%;
+    border-radius: 0 200px 200px 0;
+    display: grid;
+    place-items: center;
+  }
+  
+  /* .like_dislike div:hover {
+    cursor: pointer;
+    background-color: #3f3f3f;
+  } */
+  
+  .divider {
+    z-index: 0;
+    position: absolute;
+    left: 60%;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background-color: #3f3f3f;
+  }

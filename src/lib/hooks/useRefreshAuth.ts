@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from "../axios";
 
 export const refreshToken = async (user:any, setUser:any) => {
     try {
@@ -7,7 +7,7 @@ export const refreshToken = async (user:any, setUser:any) => {
             return;
         }
 
-        const res = await axios.post("http://localhost:5000/auth/api/token", { token: user.refreshToken });
+        const res = await http.post("/auth/api/token", { token: user.refreshToken });
         console.log("Refresh Request: ", user)
         setUser({
             ...user,
