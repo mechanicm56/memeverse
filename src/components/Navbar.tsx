@@ -29,7 +29,7 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
     if (search) {
       router.push(`/explore?search=${search}`);
     } else {
-      router.push('/explore');
+      // router.push('/explore');
     }
   }, [router, search]);
 
