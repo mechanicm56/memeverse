@@ -26,8 +26,10 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
   // const pathname = usePathname();
 
   useEffect(() => {
-    if (search && search?.length > 0) {
-      router.push(`/explore?search=${search}`)
+    if (search) {
+      router.push(`/explore?search=${search}`);
+    } else {
+      router.push('/explore');
     }
   }, [router, search]);
 

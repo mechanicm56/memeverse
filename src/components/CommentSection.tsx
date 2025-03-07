@@ -6,6 +6,7 @@ import Button from "./Button";
 import { format } from "date-fns";
 import { InvalidateQueryFilters, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthUserContext";
 
 function CommentSection({
   id,
@@ -17,6 +18,7 @@ function CommentSection({
   comments?: any[];
 }) {
   const cache = useQueryClient();
+  const { user } = useAuth();
   return (
     <section className="bg-white dark:bg-gray-900 py-8 lg:py-5 antialiased">
       <div className="max-w-3xl px-4">
@@ -25,7 +27,8 @@ function CommentSection({
             Comments ({comments?.length})
           </h3>
         </div>
-        <Formik
+        {user ? (
+          <Formik
           initialValues={{
             comment: "",
           }}
@@ -71,6 +74,11 @@ function CommentSection({
             );
           }}
         </Formik>
+        ) : (
+          <div>
+            <span>Sign In to your post comment</span>
+          </div>
+        )}
         {comments.map((comment) => (
           <article key={comment?._id} className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
             <footer className="flex justify-between items-center mb-2">
