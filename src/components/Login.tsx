@@ -10,8 +10,11 @@ import { useAuth } from "@/context/AuthUserContext";
 import { useRouter } from "next/navigation";
 
 function Login() {
-    const router = useRouter();
-    const { setUser } = useAuth();
+  const router = useRouter();
+  const { user, setUser } = useAuth();
+  if (user) {
+    router.replace('/');
+  }
   return (
     <Formik
       initialValues={{
@@ -19,36 +22,39 @@ function Login() {
         password: "",
       }}
       validationSchema={Yup.object().shape({
-            email: Yup.string().email().required('Email is required'),
-            password: Yup.string().required("Password is required")
-        })}
+        email: Yup.string().email().required("Email is required"),
+        password: Yup.string().required("Password is required"),
+      })}
       onSubmit={(values) => {
         return toast.promise(login(values), {
           pending: "Signing In...",
           success: {
             render({ data }) {
-                console.log(data);
-                if (data.accessToken) {
-                    setUser(data);
-                    window.localStorage.setItem("uxairishere", JSON.stringify(data));
-                    console.log(
-                      "Local strotage data: ",
-                      window.localStorage.getItem("uxairishere")
-                    );
-                    router.replace('/');
-                }
-                return data?.response?.message;
-            }
+              console.log(data);
+              if (data.accessToken) {
+                setUser(data);
+                window.localStorage.setItem(
+                  "uxairishere",
+                  JSON.stringify(data)
+                );
+                console.log(
+                  "Local strotage data: ",
+                  window.localStorage.getItem("uxairishere")
+                );
+                router.replace("/");
+              }
+              return data?.message;
+            },
           },
           error: {
-            render({ data: error }) {
-                return error?.response?.data?.message ?? data?.message
-            }
-          }
+            render() {
+              return "Something Went Wrong!!";
+            },
+          },
         });
       }}
     >
-      {({ handleSubmit, handleChange , errors, values }) => {
+      {({ handleSubmit, handleChange, errors, values }) => {
         // something to do
         return (
           <>

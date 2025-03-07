@@ -1,8 +1,9 @@
+import Image from "next/image";
 import React from "react";
 
-const UserCard = ({ name, avatar, rating }) => {
+const UserCard = ({ name, avatar = "/profile.png", rating }: { name?: string, avatar: string, rating: number }) => {
   // Function to render the stars based on the rating
-  const renderStars = (rating) => {
+  const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating); // Full stars (integer part)
     const emptyStars = 5 - fullStars; // Empty stars
 
@@ -22,7 +23,7 @@ const UserCard = ({ name, avatar, rating }) => {
   return (
     <div className="flex items-center space-x-4 px-4 py-2 bg-gray-100 dark:bg-black rounded-lg shadow-md">
       {/* Avatar */}
-      <img className="w-12 h-12 rounded-full" src={avatar} alt="User Avatar" />
+      <Image width={12} height={12} className="w-12 h-12 rounded-full" src={avatar} alt="User Avatar" />
 
       {/* User Info */}
       <div>

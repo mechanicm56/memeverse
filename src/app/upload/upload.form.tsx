@@ -4,11 +4,18 @@ import { postMeme } from "@/api/meme.services";
 import Button from "@/components/Button";
 import ImageDrop from "@/components/ImageDrop";
 import Textarea from "@/components/Textarea";
+import { useAuth } from "@/context/AuthUserContext";
 import { Formik } from "formik";
+import { useRouter } from "next/navigation";
 import { memo } from "react";
 import { toast } from "react-toastify";
 
 function UploadForm() {
+  const { user } = useAuth();
+   const router = useRouter();
+    if (!user) {
+      router.replace("/");
+    }
   return (
     <Formik
       initialValues={{
@@ -25,8 +32,8 @@ function UploadForm() {
                 }
             },
             error: {
-                render({ data: error }) {
-                    return error?.response?.data?.message ?? error?.message;
+                render() {
+                    return 'Somwthing Went Wrong!!';
                 }
             }
         })
@@ -39,7 +46,7 @@ function UploadForm() {
             <div className="block">
               <p className="mb-2">Caption</p>
               <Textarea placeholder="Write caption here..." name="name" onChange={handleChange} value={values.name} />
-              <span className="bg-red-800">{errors.caption}</span>
+              <span className="text-red-800">{errors.name}</span>
             </div>
             <div className="flex space-x-4">
               <Button type="button" variant="secondary">Caption With AI</Button>

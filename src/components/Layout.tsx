@@ -4,17 +4,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import BottomNavigation from "./BottomNavigation";
 import Navbar from "./Navbar";
-import Categories from "./Categories";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import {
   ExploreOutlined,
-  FilterListOutlined,
   HomeOutlined,
   LeaderboardOutlined,
   UploadOutlined,
 } from "@mui/icons-material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Dropdown from "./Dropdown";
+import { useAuth } from "@/context/AuthUserContext";
 
 const MenuList = [
   {
@@ -32,11 +30,6 @@ const MenuList = [
     icon: <LeaderboardOutlined />,
     link: "/board",
   },
-  {
-    name: "Upload",
-    icon: <UploadOutlined />,
-    link: "/upload",
-  },
 ];
 
 
@@ -53,13 +46,25 @@ const queryClient = new QueryClient({
 // })
 
 const Layout = ({ children }: { children?: React.ReactNode }) => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false); // Sidebar is initially open
   // const [pathname, setPathname] = useState('');
   // Toggle sidebar visibility
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  if(user) {
+    const check = MenuList.find((mnu) => mnu.name === 'Upload');
+    if (!check) {
+      MenuList.push({
+        name: "Upload",
+        icon: <UploadOutlined />,
+        link: "/upload",
+      });
+    }
+  }
 
   return (
     <main>

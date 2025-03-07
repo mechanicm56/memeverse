@@ -6,8 +6,15 @@ import { toast } from "react-toastify";
 import { memo } from "react";
 import * as Yup from "yup";
 import { register } from "@/api/auth.services";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthUserContext";
 
 function Register() {
+  const router = useRouter();
+    const { user } = useAuth();
+    if (user) {
+      router.replace('/');
+    }
   return (
     <Formik
       initialValues={{
@@ -23,12 +30,12 @@ function Register() {
           pending: "Signing Up...",
           success: {
             render({ data }) {
-                console.log(data);
+                // console.log(data);
                 return data?.message
           }},
           error: {
-            render({ data: error }) {
-                return error?.response?.data?.message ?? error?.message;
+            render() {
+                return 'Soemthing Went Wrong!!';
             }
           }
         });

@@ -1,11 +1,11 @@
 // components/Button.tsx
 "use client"
 
-import React, { useState } from 'react';
+import React, { ButtonHTMLAttributes, ChangeEventHandler } from 'react';
 import './index.css';
 
 type ButtonProps = {
-    onClick?: () => void
+    onClick?: (e?: ChangeEventHandler<HTMLButtonElement>) => void
     loading?: boolean
     children?: React.ReactNode
     icon?: React.ReactNode
@@ -14,18 +14,20 @@ type ButtonProps = {
 }
 
 
-const Button = ({ onClick, loading, children, icon, variant = 'primary' ,className = '', ...props }: ButtonProps) => {
-  const [isClicked, setIsClicked] = useState(false);
+const Button = ({ onClick, loading, children, icon, variant = 'primary' ,className = '', ...props }: ButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) => {
+  // const [isClicked, setIsClicked] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClick = async (e: any) => {
-    setIsClicked(true);
+    // setIsClicked(true);
     if (onClick) {
-      await onClick(e);
+      onClick(e);
     }
-    setIsClicked(false);
+    // setIsClicked(false);
     createRipple(e);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const createRipple = (e: { currentTarget: any; clientX: number; clientY: number; }) => {
     const button = e.currentTarget;
     const ripple = document.createElement('span');

@@ -5,12 +5,12 @@ import { useMemo } from "react";
 import type { MemeType } from "@/types/meme";
 import MemeDisplay from "./Meme";
 import { Loading } from "./loading";
-import Link from "next/link";
 import NoDataFound from "./NoDataFound";
 
 export default function PopularMemes() {
   const { data, isError, isLoading } = useMemes();
   const POPULAR_MEMES: MemeType[] = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const listOfMemes: any[] = [];
     if (!isLoading && !isError && data) {
       if (data?.pages?.length > 0) {

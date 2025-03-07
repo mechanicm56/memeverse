@@ -5,13 +5,13 @@ import { useAuth } from "@/context/AuthUserContext";
 import React, { useMemo } from "react";
 import { Loading } from "../../components/loading";
 import NoDataFound from "../../components/NoDataFound";
-import Link from "next/link";
 import MemeDisplay from "../../components/Meme";
 
 function UserMemes() {
   const { user } = useAuth();
   const { data, isLoading, isError } = useUserMemes(user?.user?._id);
   const USER_MEMES = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const listOfMemes: any[] = [];
     if (!isLoading && !isError && data) {
       if (data?.pages?.length > 0) {

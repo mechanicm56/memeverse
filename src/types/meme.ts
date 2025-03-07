@@ -6,5 +6,12 @@ export type MemeType = {
     width?: number
     likes?: number
     like?: string
-    comments?: any[]
+    comments?: {
+        content?: string
+        createdAt?: string
+        user?: {
+            name?: string;
+            email?: string
+        }
+    }[]
 }

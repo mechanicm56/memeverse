@@ -22,7 +22,7 @@ const MemeDisplay: React.FC<MemeDisplayProps> = ({
   width = 300,
   height = 320,
   alt = "Meme",
-  objectFit = "cover",
+  // objectFit = "cover",
   userAvatar = null,
   userName = "",
   meme,
@@ -34,7 +34,7 @@ const MemeDisplay: React.FC<MemeDisplayProps> = ({
     >
       <Link key={meme._id} href={`/meme/${meme._id}`}>
         <div
-          style={{ objectFit: objectFit }}
+          style={{ objectFit: 'cover' }}
           className="flex flex-col items-center justify-center transition-all duration-300 p-2 rounded-lg ease-in-out relative"
         >
           <Image

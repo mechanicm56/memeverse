@@ -1,8 +1,8 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 
 
-export const BASE_URL = process.env.API_URL ?? 'http://localhost:5000/api';
+export const BASE_URL = process.env.API_URL ?? 'https://memeverse-backend-zeta.vercel.app/api';
 
 const http = axios.create({
     baseURL: BASE_URL
@@ -16,7 +16,7 @@ http.interceptors.request.use(
                 const current_user = window.localStorage.getItem("uxairishere");
                 if (current_user) {
                     const user = JSON.parse(current_user);
-                    const decodedToken: any = jwtDecode(user?.accessToken);
+                    // const decodedToken: any = jwtDecode(user?.accessToken);
                     // if (decodedToken.exp * 1000 < currentDate.getTime()) {
                     //     config.headers["authorization"] = "Bearer " + user?.accessToken;
                     // }
@@ -42,7 +42,7 @@ http.interceptors.response.use(
             if (window.localStorage.getItem("uxairishere")) {
                 try {
                     const current_user = window.localStorage.getItem("uxairishere");
-                    const user = JSON.parse(current_user);
+                    const user = current_user ? JSON.parse(current_user) : '';
                     if (current_user && user?.accessToken) {
                         const { data } = await axios.post(`${BASE_URL}/auth/token`, { token: user?.refreshToken });
                         const newData = {

@@ -1,16 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import CommentSection from "./CommentSection";
 import LikeDislike from "./like-dislike";
 import { MemeType } from "@/types/meme";
-import Image from "next/image";
 import { Share } from "@mui/icons-material";
 import { likeMeme, useMeme, useMemes } from "@/api/meme.services";
 import { useAuth } from "@/context/AuthUserContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { InvalidateQueryFilters, useQueryClient } from "@tanstack/react-query";
 import { Loading } from "./loading";
 import MemeDisplay from "./Meme";
+import Image from "next/image";
 
 type ImageCardProps = {
   memeId?: string;
@@ -27,7 +27,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ memeId }) => {
       userId: user?.user?._id,
       type: val,
     });
-    cache.invalidateQueries(`meme-${memeId}`);
+    cache.invalidateQueries(`meme-${memeId}` as InvalidateQueryFilters);
   };
 
   const meme = useMemo(() => {
@@ -39,8 +39,9 @@ const ImageCard: React.FC<ImageCardProps> = ({ memeId }) => {
     return meme;
   }, [data, isLoading, isError]);
 
-  const { data: memes, isError: isMemesError, isMemesLoading } = useMemes();
+  const { data: memes, isError: isMemesError, isLoading: isMemesLoading } = useMemes();
   const POPULAR_MEMES: MemeType[] = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const listOfMemes: any[] = [];
     if (!isMemesLoading && !isMemesError && memes) {
       if (memes?.pages?.length > 0) {
@@ -60,11 +61,11 @@ const ImageCard: React.FC<ImageCardProps> = ({ memeId }) => {
         {/* Image and Caption */}
         <div className="relative">
           <div>
-            <img
+            <Image
               style={{ objectFit: "contain" }}
-              src={meme?.url?.length > 0 ? meme?.url : null}
-              width={meme?.width}
-              height={meme?.height}
+              src={meme?.url}
+              width={meme?.width ?? 300}
+              height={meme?.height ?? 300}
               loading="lazy"
               alt="Image caption"
               className="w-full max-h-100"
@@ -101,7 +102,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ memeId }) => {
           comments={meme?.comments}
         />
       </div>
-      <div className="col-span-1 bg-white dark:bg-gray-900 rounded-md p-4">
+      <div className="col-span-3 sm:col-span-1 bg-white dark:bg-gray-900 rounded-md p-4">
         <h2>Similar Memes</h2>
         <div className="flex flex-col space-y-3">
           {POPULAR_MEMES.map((meme) => (

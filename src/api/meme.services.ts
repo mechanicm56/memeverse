@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import http from "@/lib/axios";
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
@@ -7,19 +8,23 @@ export const getMemes = async (queryParams?: any) => {
         params: {
             search,
             category, 
-            sortby
+            sortby,
+            next: queryParams.pageParam
         }
     }
     const { data } = await http.get('meme', config);
+    // console.log(data)
     return data;
 }
 
 export const useMemes = (search?: string, category?: string, sortby?: string) => {
     return useInfiniteQuery({
-        initialPageParam: '',
+        initialPageParam: false,
         queryKey: ['memes', search, category, sortby],
         queryFn: getMemes,
-        getNextPageParam: (lastPage) => lastPage?.paging?.hasMore && lastPage.paging.next,
+        getNextPageParam: (lastPage) => {
+            return lastPage.paging.next;
+        }
     })
 }
 
@@ -101,7 +106,7 @@ export const likeMeme = async (id?: string, values?: any) => {
     return data;
 }
 
-export const postComment = async (id?: string, values?: string) => {
+export const postComment = async (id?: string, values?: any) => {
     const { data } = await http.post(`/meme/comment/${id}`, values);
     return data;
 }

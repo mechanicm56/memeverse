@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { UploadFile } from "@mui/icons-material";
-import Image from "next/image";
-import { ChangeEventHandler, DragEventHandler, useEffect, useState } from "react";
+import { ChangeEventHandler, DragEventHandler, SetStateAction, useEffect, useState } from "react";
 
 const ImageDrop = ({
   accept,
@@ -11,10 +11,10 @@ const ImageDrop = ({
   onChange
 }: {
   accept?: string;
-  value?: string | null | ArrayBuffer
+  value?: string | null
   onChange?: (image: any) => void;
 }) => {
-  const [image, setImage] = useState<null | string | ArrayBuffer>(value);
+  const [image, setImage] = useState<null | string>(value);
   const [dragging, setDragging] = useState(false);
 
   // Handle drag over event
@@ -40,7 +40,7 @@ const ImageDrop = ({
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImage(reader.result as SetStateAction<string | null>);
       };
       reader.readAsDataURL(file);
     } else {
@@ -54,7 +54,7 @@ const ImageDrop = ({
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImage(reader.result as SetStateAction<string | null>);
       };
       reader.readAsDataURL(file);
     } else {
@@ -67,7 +67,7 @@ const ImageDrop = ({
   }, [value])
 
   useEffect(() => {
-    if (image && onChange) {
+    if (onChange) {
       onChange(image);
     }
   }, [image])

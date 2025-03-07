@@ -14,7 +14,7 @@ import {
 import Dropdown, { ItemProps } from "./Dropdown";
 import { useAuth } from "@/context/AuthUserContext";
 import { useDebounce } from "use-debounce";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
   const router = useRouter();
@@ -23,13 +23,13 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [search] = useDebounce(searchValue, 1000);
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === '/explore') {
+    if (search && search?.length > 0) {
       router.push(`/explore?search=${search}`)
     }
-  }, [pathname, router, search]);
+  }, [router, search]);
 
   let PROFILE_MENU: ItemProps[] = [];
 
@@ -131,7 +131,7 @@ function Navbar({ toggleSidebar }: { toggleSidebar?: () => void }) {
           {!openSearch && (
             <div className="flex items-center space-x-4">
               <button
-                className="icon-button block sm:hidden"
+                className="icon-button search-btn"
                 onClick={() => setOpenSearch(true)}
               >
                 <SearchOutlined />

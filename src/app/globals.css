@@ -39,6 +39,12 @@ h1 {
   }
 }
 
+@media (min-width: 640px) {
+  .search-btn {
+    display: none;
+  }
+}
+
 /* Optional: Add an effect on active state */
 .icon-button:active {
   @apply scale-95;

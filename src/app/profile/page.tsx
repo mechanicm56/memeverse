@@ -13,7 +13,7 @@ const ProfilePage = () => {
     <div className="block">
       <ProfileForm />
       <div className="mt-6">
-        <h2>Your's Memes</h2>
+        <h2>Your&apos;s Memes</h2>
         <UserMemes />
         <h2>Liked Memes</h2>
         <LikedMemes />

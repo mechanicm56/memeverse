@@ -1,5 +1,6 @@
 import http from "../axios";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const refreshToken = async (user:any, setUser:any) => {
     try {
         if (!user || !user.refreshToken || !user.user) {

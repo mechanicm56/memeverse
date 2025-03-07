@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Formik } from "formik";
-import React, { useMemo, useState } from "react";
+import React, { ChangeEventHandler, ReactNode, useMemo, useState } from "react";
 import { CloseOutlined, EditOutlined, Email } from "@mui/icons-material";
 import Image from "next/image";
 import * as Yup from "yup";
@@ -11,11 +12,17 @@ import { updateProfile } from "@/api/meme.services";
 import { useAuth } from "@/context/AuthUserContext";
 import { useProfile } from "@/api/user.services";
 import { Loading } from "@/components/loading";
-import { useQueryClient } from "@tanstack/react-query";
+import { InvalidateQueryFilters, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 function ProfileForm() {
-    const { user } = useAuth();
-    const cache = useQueryClient();
+  const { user } = useAuth();
+  const router = useRouter();
+  if (!user) {
+    router.replace("/");
+  }
+
+  const cache = useQueryClient();
   // State to toggle edit mode and store input values
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState("/profile.png");
@@ -24,13 +31,13 @@ function ProfileForm() {
 
   const PROFILE = useMemo(() => {
     if (!isLoading && !isError) {
-        return data;
+      return data;
     }
     return null;
   }, [data, isLoading, isError]);
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
@@ -38,7 +45,7 @@ function ProfileForm() {
       initialValues={{
         avatar: PROFILE?.avatar ?? null,
         name: PROFILE?.name ?? "",
-        bio: PROFILE?.bio ?? ""
+        bio: PROFILE?.bio ?? "",
       }}
       validationSchema={Yup.object().shape({
         avatar: Yup.mixed().required("Avatar is required"),
@@ -47,26 +54,26 @@ function ProfileForm() {
       })}
       onSubmit={(values, { resetForm }) => {
         console.log(values);
-        return toast.promise(updateProfile( user?.user?._id, values), {
-            pending: 'Updating Profile...',
-            success: {
-                render({ data }) {
-                    resetForm();
-                    cache.invalidateQueries('profile');
-                    return data?.message;
-                }
+        return toast.promise(updateProfile(user?.user?._id, values), {
+          pending: "Updating Profile...",
+          success: {
+            render({ data }) {
+              resetForm();
+              cache.invalidateQueries("profile" as InvalidateQueryFilters);
+              return data?.message;
             },
-            error: {
-                render({ data: error }) {
-                    return error?.response?.data?.message ?? error?.message;
-                }
-            }
-        })
+          },
+          error: {
+            render() {
+              return "Something Went Wrong!!";
+            },
+          },
+        });
       }}
     >
       {({ handleSubmit, handleChange, setFieldValue, values, errors }) => {
         // Handle the file input change (for profile image upload)
-        const handleImageUpload = (e) => {
+        const handleImageUpload = (e: { target: { files: any[] } }) => {
           const file = e.target.files[0];
           if (file) {
             setProfileImage(URL.createObjectURL(file)); // Temporarily show the image before uploading it to a server
@@ -92,10 +99,15 @@ function ProfileForm() {
                     id="avatar"
                     name="avatar"
                     accept="image/*"
-                    onChange={handleImageUpload}
+                    onChange={
+                      handleImageUpload as unknown as ChangeEventHandler
+                    }
                     className="cursor-pointer"
                   />
-                  <div style={{ minWidth: 250 }} className="flex flex-col space-y-4 items-center justify-center">
+                  <div
+                    style={{ minWidth: 250 }}
+                    className="flex flex-col space-y-4 items-center justify-center"
+                  >
                     <div className="flex-shrink-0 w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500 mb-4 md:mb-0">
                       <label className="cursor-pointer" htmlFor="avatar">
                         <Image
@@ -107,7 +119,9 @@ function ProfileForm() {
                         />
                       </label>
                     </div>
-                    <span className="text-red-800">{errors.avatar}</span>
+                    <span className="text-red-800">
+                      {errors.avatar as ReactNode}
+                    </span>
                   </div>
 
                   {/* Profile Details */}
@@ -137,7 +151,9 @@ function ProfileForm() {
                           placeholder="Enter your name"
                           className="text-gray-800 p-2 w-full border border-gray-300 dark:text-gray-400 dark:border-gray-600 ring-0 rounded-md"
                         />
-                        <span className="text-red-800">{errors.name}</span>
+                        <span className="text-red-800">
+                          {errors.name as ReactNode}
+                        </span>
                         {/* Editable Bio */}
                         <textarea
                           name="bio"
@@ -147,24 +163,31 @@ function ProfileForm() {
                           className="mt-4 text-gray-600 p-2 w-full border border-gray-300  dark:text-gray-400 dark:border-gray-600 rounded-md"
                           rows={3}
                         />
-                        <span className="text-red-800">{errors.bio}</span>
+                        <span className="text-red-800">{`${errors.bio}`}</span>
                         <br />
-                        <Button type="submit" className="mt-2">Update</Button>
+                        <Button type="submit" className="mt-2">
+                          Update
+                        </Button>
                       </>
                     ) : (
                       <>
                         {/* Non-editable Name */}
                         <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-300">
-                          {PROFILE?.name}
+                          {PROFILE?.name ?? "Your Name"}
                         </h1>
                         {/* Non-editable Bio */}
-                        <p className="text-gray-500 h-30 mt-2">{PROFILE?.bio}</p>
+                        <p className="text-gray-500 h-30 mt-2">
+                          {PROFILE?.bio ?? "Write something about yourself..."}
+                        </p>
                       </>
                     )}
                   </div>
                 </div>
                 <div className="flex flex-col absolute bottom-0 right-0 m-3">
-                  <span className="flex items-center space-x-2"><Email fontSize="small" /><span className="block">{PROFILE?.email}</span></span>
+                  <span className="flex items-center space-x-2">
+                    <Email fontSize="small" />
+                    <span className="block">{PROFILE?.email}</span>
+                  </span>
                 </div>
               </div>
             </div>

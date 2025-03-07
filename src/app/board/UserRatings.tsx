@@ -3,7 +3,7 @@
 import { useUserRatings } from "@/api/user.services";
 import { Loading } from "@/components/loading";
 import UserCard from "@/components/UserCard";
-import Image from "next/image";
+import { UserType } from "@/types/user";
 import React, { useMemo } from "react";
 
 function UserRatings() {
@@ -25,7 +25,7 @@ function UserRatings() {
 
   return (
     <>
-      {USER_RATINGS.map((usr) => (
+      {USER_RATINGS.map((usr: UserType) => (
         <UserCard
           key={usr?._id}
           name={usr?.name}

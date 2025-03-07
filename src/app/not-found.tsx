@@ -5,7 +5,7 @@ const Custom404 = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800 text-center p-4">
       <h1 className="text-5xl font-bold text-red-500">Oops! 404 Error</h1>
       <p className="mt-4 text-xl text-gray-700 dark:text-gray-500">
-        Looks like you’ve wandered off the beaten path!
+        Looks like you&apos;ve wandered off the beaten path!
       </p>
 
       {/* Meme Image */}
@@ -66,7 +66,7 @@ const Custom404 = () => {
 
       {/* Funny Message */}
       <p className="mt-4 text-lg text-gray-600 dark:text-gray-500">
-        This is not the page you're looking for. But hey, it’s a great time to
+        This is not the page you&apos;re looking for. But hey, it&apos;s a great time to
         laugh!
       </p>
 
